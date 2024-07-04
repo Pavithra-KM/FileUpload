@@ -15,6 +15,7 @@ route.get('/findPolicyInfo', fileUploadController.getPolicyInfo)
 // Search API to find policy info with the help of user name
 route.post('/searchPolicyInfoWithUsername', fileUploadController.searchPolicyInfoWithUsername)
 
+// API to insert message
 route.post('/insertMessage', fileUploadController.insertMessage)
 
 export default route;

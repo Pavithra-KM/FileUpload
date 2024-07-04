@@ -9,7 +9,7 @@ functions.fileUpload = (file) => {
     try {
       const mongoDetails = {
         uri: 'mongodb://127.0.0.1:27017',
-        dbName: 'mydb',
+        dbName: 'tasks',
         file: file.path
       };
       const worker = new Worker(path.resolve(__dirname, 'worker.js'), {
@@ -17,7 +17,7 @@ functions.fileUpload = (file) => {
       });
 
       worker.on('message', (message) => {
-        console.log("poiuytgyuioplokmjnm", message);
+        console.log("message", message);
       });
 
       worker.on('error', (error) => {
@@ -25,17 +25,15 @@ functions.fileUpload = (file) => {
       });
 
       worker.on('exit', (code) => {
-        if (code !== 0) {
           console.error(`Worker stopped with exit code ${code}`);
-        }
       });
       resolve({
         status: "Success",
       });
     } catch (error) {
-      console.log("kdjfkblgkfmdkldfkgbm", error);
       reject({
         status: "Failed",
+        error: error
       });
     }
   })
@@ -72,9 +70,9 @@ functions.getPolicyInfo = async () => {
         result: policyInfoWithUser
       })
     } catch (error) {
-      console.log("kdjfkblgkfmdkldfkgbm", error);
       reject({
         status: "Failed",
+        error: error
       });
     }
   })
@@ -95,18 +93,17 @@ functions.searchPolicyInfoWithUsername = (body) => {
               as: "policy_details",
             },
           },
-          {$project: {firstname: 1}}        
+          {$project: {policy_details: 1}}        
         ]).toArray();
-        console.log("kjkpoldjfk,lgbpoikjrke3", policyDetails);
       }
       resolve({
         status: "Success",
         result: policyDetails
       })
     } catch (error) {
-      console.log("kdjfkblgkfmdkldfkgbm", error);
       reject({
         status: "Failed",
+        error: error
       });
     }
   })
@@ -114,28 +111,23 @@ functions.searchPolicyInfoWithUsername = (body) => {
 
 functions.insertMessage = (body) => {
   return new Promise(async (resolve, reject) => {
-    console.log("kjnjl;olkfjkofkjlodfkjvlkfr", body.time.split(':'));
-    const now = new Date(body.time);
-    console.log("nownownownownow", now);
-    const hours = body.time.split(':')[0]
-    const minutes = body.time.split(':')[1]
+    const time = body.time.split(':')
+    const hours = time[0];
+    const minutes = time[1];
     const date = new Date(body.day);
-    console.log("hourshourshourshourshours", date,date.getDate(), date.getMonth());
     try {
-      cron.schedule(`${minutes} ${hours} ${date.getDate()} ${date.getMonth()} *`, () => {
-        console.log("kjhnmklosjklkdfv", body.message);
-        messagesCollection.insertOne({ messge: body.message }, (err, result) => {
-          console.log("resultresultresultresultresult",result);
-          resolve({
-            status: "Success"
-          })
-        })
+      cron.schedule(`${minutes} ${hours} ${date.getDate()} ${date.getMonth()+1} *`, () => {
+        messagesCollection.insertOne({ messge: body.message, date: body.day, time: body.time })
       });
+      resolve({
+        status: "Success",
+        message: "Inserted Successfully"
+      })
 
     } catch (error) {
-      console.log("kdjfkblgkfmdkldfkgbm", error);
       reject({
         status: "Failed",
+        error: error
       });
     }
   })

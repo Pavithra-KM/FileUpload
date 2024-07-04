@@ -48,6 +48,5 @@ fs.createReadStream(filePath)
       if (err) {
         console.error('Error deleting file:', err);
       }
-      console.log('Temporary file deleted');
     });
   })

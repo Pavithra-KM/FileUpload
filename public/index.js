@@ -1,18 +1,29 @@
 var file;
+function openTab(e, tabName, btnId) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tabcontent.length; i++) {
+        tablinks[i].classList.remove("active");
+        tabcontent[i].style.display = "none";
+    }
+    document.getElementById(btnId).classList.add("active");
+    document.getElementById(tabName).style.display = "block";
+}
 
 document.getElementById('file').addEventListener('change', function (e) {
-    file = e.target.files[0];
+    file = e.target.files;
 });
 
 const fileUpload = () => {
-    if (Object.keys(file || {}).length > 0) {
+    if (file && file.length > 0) {
         const formData = new FormData();
-        formData.append('upload', file);
+        formData.append('upload', file[0]);
         fetch("/fileUpload", {
             method: 'post',
             body: formData,
         }).then((response) => {
-            console.log("lkdnmvklkfmkllfkvmfkd", response);
+            document.getElementById("attachFileError").innerHTML = ""
         }).catch((error) => {
             console.log("error", error)
         })
@@ -85,11 +96,13 @@ const searchPolicyInfoWithName = () => {
                                 <th>End Date</th>
                             </tr>`
                 policyDetailsWithSpecificUser.result.result.forEach(element => {
-                    html += `<tr>
-                                <td>${element.policy_number}</td>
-                                <td>${element.policy_start_date}</td>
-                                <td>${element.policy_end_date}</td>
-                                </tr>`
+                    element.policy_details.forEach(info => {
+                        html += `<tr>
+                                    <td>${info.policy_number}</td>
+                                    <td>${info.policy_start_date}</td>
+                                    <td>${info.policy_end_date}</td>
+                                    </tr>`
+                        })
                 });
                 html += `</table >`
                 html += `</div >`
@@ -108,15 +121,20 @@ const searchPolicyInfoWithName = () => {
 }
 
 const sendMessage = () => {
-    fetch("/insertMessage", {
-        method: 'post',
-        body: JSON.stringify({time: "18:26", message: "Hi", day: "03/07/2024" }),
-        headers: {
-            "content-type": "application/json"
-        }
-    }).then(async (response) => {
-        console.log("kjeffpoijkglofrekjlfofvkjgf", response);
-    }).catch((error) => {
-        console.log("error", error)
-    })
+    if(document.getElementById("timeInp").value && document.getElementById("message").value && document.getElementById("dateInp").value){
+        fetch("/insertMessage", {
+            method: 'post',
+            body: JSON.stringify({time: document.getElementById("timeInp").value, message: document.getElementById("message").value, day: document.getElementById("dateInp").value }),
+            headers: {
+                "content-type": "application/json"
+            }
+        }).then((response) => {
+            document.getElementById("emptyValuesErrorMsg").innerHTML = ""
+        }).catch((error) => {
+            console.log("error", error)
+        })
+    } else {
+        document.getElementById("emptyValuesErrorMsg").style.color = "red"
+        document.getElementById("emptyValuesErrorMsg").innerHTML = "Fields should not be empty";
+    }
 }

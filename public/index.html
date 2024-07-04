@@ -10,25 +10,44 @@
 
 <body>
     <h2>File Upload</h2>
-    <div>
-        <input type="file" id="file">
-        <button class="btn btn-primary btn-sm cursor-pointer" onclick="fileUpload()">Upload</button>
-    </div>
-    <span id="attachFileError" style="color: red;"></span>
-    <div style="margin-top: 15px;">
-        <input type="text" placeholder="User name" id="userNameInput" />
-        <button class="btn btn-primary btn-sm cursor-pointer" onclick="searchPolicyInfoWithName()">Search</button>
-    </div>
-    <span id="emptyValueError"></span>
-    <div id="policyDetailsTable"></div>
-    <div style="margin-top: 15px;">
-        <button class="btn btn-primary btn-sm cursor-pointer" onclick="findPolicyInfo()">Find Policy Info</button>
-    </div>
-    <div style="margin-top: 15px;">
-        <button class="btn btn-primary btn-sm cursor-pointer" onclick="sendMessage()">Send Message</button>
-    </div>
-    <div id="policyDetails"></div>
-    <script type="text/javascript" src="./index.js"></script>
+    <div class="tab">
+        <button class="tablinks active" id="fileUploadBtn" onclick="openTab(event, 'fileUpload', 'fileUploadBtn')">File Upload</button>
+        <button class="tablinks" id="searchPolicyBtn" onclick="openTab(event, 'searchPolicy', 'searchPolicyBtn')">Search with user name</button>
+        <button class="tablinks" id="findPolicyBtn" onclick="openTab(event, 'findPolicy', 'findPolicyBtn')">Aggregated Policy Details</button>
+        <button class="tablinks" id="sendMessageBtn" onclick="openTab(event, 'sendMessage', 'sendMessageBtn')">Send message</button>
+      </div>
+      
+      <div id="fileUpload" class="tabcontent" style="display: block;padding: 25px;">
+        <div>
+            <input type="file" id="file">
+            <button class="btn btn-primary btn-sm cursor-pointer btnCss" onclick="fileUpload()">Upload</button>
+        </div>
+        <span id="attachFileError" style="color: red;"></span>
+      </div>
+      <div id="searchPolicy" class="tabcontent" style="display: none;padding: 25px;">
+        <div >
+            <input type="text" placeholder="User name" id="userNameInput" />
+            <button class="btn btn-primary btn-sm cursor-pointer btnCss" onclick="searchPolicyInfoWithName()">Search</button>
+        </div>
+        <div id="policyDetailsTable"></div>
+        <span id="emptyValueError"></span>
+      </div>
+      <div id="findPolicy" class="tabcontent" style="display: none;padding: 25px;">
+        <div id="policyDetails"></div>
+        <div>
+            <button class="btn btn-primary btn-sm cursor-pointer btnCss" onclick="findPolicyInfo()">Find Policy Info</button>
+        </div>
+      </div>
+      <div id="sendMessage" class="tabcontent" style="display: none;padding: 25px;">
+        <div class="sendMessageClass">
+            <textarea id="message" style="margin-right: 5px;" placeholder="Message"></textarea>
+            <input id="dateInp" style="margin-right: 5px;" type="date" />
+            <input id="timeInp" style="margin-right: 5px;" type="time"/>
+            <button class="btn btn-primary btn-sm cursor-pointer btnCss" style="margin-right: 5px;" onclick="sendMessage()">Send Message</button>
+        </div>
+        <span id="emptyValuesErrorMsg" style="color: red;"></span>
+      </div>
+      <script type="text/javascript" src="./index.js"></script>
 </body>
 
 </html>

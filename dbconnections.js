@@ -9,12 +9,12 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (e
 	}
 	console.log('Connected successfully to the database');
 
-	global.mydb = client.db("mydb");
-	global.messagesCollection = mydb.collection("Messages");
-	global.userCollection = mydb.collection("User");
-	global.agentCollection = mydb.collection("Agent");
-	global.usersAccountCollection = mydb.collection("UsersAccount");
-	global.lobCollection = mydb.collection("LOB");
-	global.carrierCollection = mydb.collection("Carrier");
-	global.policyCollection = mydb.collection("Policy")
+	global.tasksDb = client.db("tasks");
+	global.messagesCollection = tasksDb.collection("Messages");
+	global.userCollection = tasksDb.collection("User");
+	global.agentCollection = tasksDb.collection("Agent");
+	global.usersAccountCollection = tasksDb.collection("UsersAccount");
+	global.lobCollection = tasksDb.collection("LOB");
+	global.carrierCollection = tasksDb.collection("Carrier");
+	global.policyCollection = tasksDb.collection("Policy")
 });
