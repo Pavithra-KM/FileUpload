@@ -19,7 +19,7 @@ This project involves building a comprehensive Node.js application with multiple
 
 ## Task 1: Data Management API
 
-### 1. API to Upload XLSX/CSV Data to MongoDB
+### 1. API to Upload CSV Data to MongoDB
 
 - Implement an API that uploads data from CSV files into MongoDB.
 - Utilize worker threads to handle file processing and data insertion efficiently.
