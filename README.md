@@ -64,7 +64,7 @@ npm install
 ## Acknowledgements
 
 List of acknowledgements, inspirations, and resources used.
-- [Node.js](https://nodejs.org/)
+- [Node.js](#https://nodejs.org/)
 - **[Express](https://expressjs.com/)**
 - **[NPM](https://www.npmjs.com/)**
 - **[MongoDB](https://www.mongodb.com/)**
